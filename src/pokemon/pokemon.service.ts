@@ -35,7 +35,7 @@ export class PokemonService {
   }
 
   async findOne(term: string) {
-    let pokemon: Pokemon | null;
+    let pokemon: Pokemon | null = null;
     try {
       pokemon = !isNaN(+term) 
         ? await this.pokemonModel.findOne({no: term})
@@ -46,16 +46,43 @@ export class PokemonService {
         throw new BadRequestException(`Pokemon with term ${term} not found`);
       }
     } catch (error) {
-      throw new InternalServerErrorException(`Error fetching pokemon with term ${term}: ${error.message}`);
+      this.handleExceptions(error);
     }
     return pokemon;
   }
 
-  update(id: number, updatePokemonDto: UpdatePokemonDto) {
-    return `This action updates a #${id} pokemon`;
+  async update(term: string, updatePokemonDto: UpdatePokemonDto) {
+    let pokemon: Pokemon | null;
+    try {
+      pokemon = await this.findOne(term);
+      if (!pokemon) {
+        throw new BadRequestException(`Pokemon with term ${term} not found`);
+      }
+      const updatedPokemon = {
+        ...pokemon.toObject(),
+        no: updatePokemonDto.no ? updatePokemonDto.no : pokemon.no,
+        name: updatePokemonDto.name ?  updatePokemonDto.name.toLocaleLowerCase() : pokemon.name,
+      };
+      await pokemon.updateOne(updatedPokemon);
+      return updatedPokemon
+    } catch (error) {
+      this.handleExceptions(error);
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} pokemon`;
+  async remove(id: string) {
+      const {deletedCount, acknowledged} = await this.pokemonModel.deleteOne({ _id: id });
+      if (deletedCount === 0) {
+        throw new BadRequestException(`Pokemon with id ${id} not found`);
+      }
+      return
+  }
+
+  private handleExceptions(error: any) {
+    if (error.code === 11000) {
+      throw new BadRequestException(`Pokemon exists in db ${JSON.stringify(error.keyValue)}`);
+    }
+    console.error(error);
+    throw new InternalServerErrorException('An error occurred while processing the request');
   }
 }
