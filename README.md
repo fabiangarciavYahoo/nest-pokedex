@@ -29,12 +29,14 @@ docker-compose up -d
 
 7. Ejecutar la aplicación en dev:
 
-````
+```
 
 yarn start:dev
 
 ```
+
 8. Reconstruir la base de datos semilla
+
 ```
 
 http://localhost:3000/api/seed
@@ -42,7 +44,10 @@ http://localhost:3000/api/seed
 ```
 
 ## Stack usado
-* MongoDB
-* Nest
+
+- MongoDB
+- Nest
+
 ```
-````
+
+```
