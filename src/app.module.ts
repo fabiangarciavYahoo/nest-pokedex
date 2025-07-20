@@ -8,9 +8,8 @@ import { SeedModule } from './seed/seed.module';
 import { ConfigModule } from '@nestjs/config';
 import { EnvConfiguration } from './config/app.config';
 import { JoiValidationSchema } from './config/joi.validation';
-import * as fs from 'fs';
 
-const MONGODB = process.env.MONGODB || 'mongodb://localhost:27017/nest-pokemon';
+const DATABASE_URL = process.env.DATABASE_URL || 'mongodb+srv://nest.dwygdyt.mongodb.net/?authSource=%24external&authMechanism=MONGODB-X509&retryWrites=true&w=majority&appName=Nest';
 
 const mongoOptions = {
   tlsCertificateKeyFile: './certs/X509-cert-7432028479507048774.pem',
@@ -27,7 +26,7 @@ const mongoOptions = {
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'public'),
     }),
-    MongooseModule.forRoot(MONGODB, mongoOptions),
+    MongooseModule.forRoot(DATABASE_URL, mongoOptions),
     PokemonModule,
     CommonModule,
     SeedModule
