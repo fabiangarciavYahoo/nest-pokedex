@@ -9,7 +9,7 @@ import { ConfigModule } from '@nestjs/config';
 import { EnvConfiguration } from './config/app.config';
 import { JoiValidationSchema } from './config/joi.validation';
 
-const DATABASE_URL = process.env.DATABASE_URL || 'mongodb+srv://nest.dwygdyt.mongodb.net/?authSource=%24external&authMechanism=MONGODB-X509&retryWrites=true&w=majority&appName=Nest';
+const DATABASE_URL = process.env.DATABASE_URL || 'mongodb+srv://koyeb:bTrn3aDteNEGTK5T@nest.dwygdyt.mongodb.net/?retryWrites=true&w=majority&appName=Nest';
 
 // const mongoOptions = {
 //   tlsCertificateKeyFile: './certs/X509-cert-7432028479507048774.pem',
