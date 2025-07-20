@@ -11,11 +11,11 @@ import { JoiValidationSchema } from './config/joi.validation';
 
 const DATABASE_URL = process.env.DATABASE_URL || 'mongodb+srv://nest.dwygdyt.mongodb.net/?authSource=%24external&authMechanism=MONGODB-X509&retryWrites=true&w=majority&appName=Nest';
 
-const mongoOptions = {
-  tlsCertificateKeyFile: './certs/X509-cert-7432028479507048774.pem',
-  serverApi: "1" as const,
-  dbName: 'pokemon',
-};
+// const mongoOptions = {
+//   tlsCertificateKeyFile: './certs/X509-cert-7432028479507048774.pem',
+//   serverApi: "1" as const,
+//   dbName: 'pokemon',
+// };
 
 @Module({
   imports: [
@@ -26,7 +26,8 @@ const mongoOptions = {
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'public'),
     }),
-    MongooseModule.forRoot(DATABASE_URL, mongoOptions),
+    // MongooseModule.forRoot(DATABASE_URL, mongoOptions),
+    MongooseModule.forRoot(DATABASE_URL),
     PokemonModule,
     CommonModule,
     SeedModule
